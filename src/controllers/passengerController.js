@@ -1,11 +1,16 @@
+import httpStatus from "http-status";
+import passengerRepository from "../repositores/passengerRepository.js";
+
+
 export async function createPassenger(req,res){
- console.log(req.body)
+    const {firstName, lastName} = req.body
+    if(!firstName || !lastName) return res.sendStatus(httpStatus.BAD_REQUEST)
 
     try {
-     
-      res.sendStatus(201);
+    await passengerRepository({firstName, lastName})
+    res.sendStatus(httpStatus.CREATED);
     } catch (error) {
       console.log(error);
-      res.status(500).send(error.message);
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
     }
 }
