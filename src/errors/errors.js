@@ -11,5 +11,11 @@ export function notFound(resource) {
   };
 }
 
+export function notPassengerOrFlight(resource){
+   return {
+     type: "notFound_Passenger_Or_flight",
+     message: `${resource} não existe`,
+   };
+}
 
-export const errors = {findConflit, notFound}
+export const errors = {findConflit, notFound, notPassengerOrFlight}
