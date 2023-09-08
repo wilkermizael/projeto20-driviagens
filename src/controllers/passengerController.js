@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import passengerRepository from "../repositores/passengerRepository.js";
+import passengerRepository from "../repositories/passengerRepository.js";
 
 
 export async function createPassenger(req,res){
