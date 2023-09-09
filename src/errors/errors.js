@@ -17,5 +17,16 @@ export function notPassengerOrFlight(resource){
      message: `${resource} não existe`,
    };
 }
-
-export const errors = {findConflit, notFound, notPassengerOrFlight}
+export function invalidDate(resource){
+    return {
+      type: "invalidDate",
+      message: `${resource}`,
+    };
+}
+export function badRequest(resource) {
+  return {
+    type: "badRequest",
+    message: `${resource}`,
+  };
+}
+export const errors = {findConflit, notFound, notPassengerOrFlight, invalidDate,badRequest}
