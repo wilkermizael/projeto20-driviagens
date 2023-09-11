@@ -16,7 +16,11 @@ async function createTravel({ passengerId,flightId }) {
   );
 }
 async function findTravelByName({name}){
-  
+  if(!name){
+    const result = await db.query(`select * from travels limit 10;`);
+
+    return result;
+  }
   const result = await db.query(
     `select passengers.*, count(travels) as "travels" from passengers join travels on passengers.id = travels."passengerId"
     where  passengers."firstName" ILIKE $1 OR passengers."lastName" ILIKE $2
