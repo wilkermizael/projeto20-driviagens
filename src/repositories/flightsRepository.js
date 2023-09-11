@@ -26,11 +26,13 @@ async function getByQueryFlights({origin, destination, smallerDate, biggerDate})
     [origin, destination]
   );
   console.log(smallerDate)
-  const result =
-    await db.query(`SELECT * FROM flights WHERE origin = $1 AND destination = $2
-    AND TO_DATE(flights.date,'DD/MM/YYYY') >= $3
-    AND TO_DATE(flights.date,'DD/MM/YYYY') <= $4
-    ORDER BY date;`,[cityId.rows[0].id,cityId.rows[1].id,smallerDate,biggerDate]);
+  const result = await db.query(
+    `SELECT * FROM flights WHERE origin = $1 AND destination = $2
+    AND TO_DATE(flights.date,'DD/MM/YYYY') >= TO_DATE($3, 'DD/MM/YYYY')
+    AND TO_DATE(flights.date,'DD/MM/YYYY') <= TO_DATE($4, 'DD/MM/YYYY')
+    ORDER BY date;`,
+    [cityId.rows[0].id, cityId.rows[1].id, smallerDate, biggerDate]
+  );
   return result;
 }
 
