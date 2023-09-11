@@ -13,13 +13,29 @@ async function createFlights({ origin, destination, date }){
      VALUES($1,$2,$3);`,[origin,destination,date])
 }
 
-async function getFlights({origin, destination, sendDate}){
+async function getAllFlights(){
+ 
+   const result = await db.query(`SELECT * FROM flights ORDER BY date`);
+   return result;
+ 
+}
+async function getByQueryFlights({origin, destination, smallerDate, biggerDate}) {
+  // PEGAR OS IDs DA CIDADE DE ORIGEM E DESTINO
+  const cityId = await db.query(
+    `SELECT cities.id FROM cities WHERE name = $1 OR name = $2 GROUP BY id;`,
+    [origin, destination]
+  );
   
-  if (!origin && !destination && !sendDate) {
-    
-    const result = await db.query(`SELECT * FROM flights ORDER BY date`);
-    return result;
-  }
+  const result =
+    await db.query(`SELECT * FROM flights WHERE origin = $1 AND destination = $2
+    AND TO_DATE(flights.date,'DD/MM/YYYY') > $3
+    AND TO_DATE(flights.date,'DD/MM/YYYY') < $4
+    ORDER BY date;`,[cityId.rows[0].id,cityId.rows[1].id,smallerDate,biggerDate]);
+  return result;
+}
+
+async function getFlights({origin, destination, sendDate}){
+ 
   if (origin !== undefined) {
     const cityId = await db.query(`SELECT * FROM cities WHERE name =$1 `,[origin]);
     if(cityId.rows.length === 0) return cityId
@@ -42,7 +58,7 @@ async function getFlights({origin, destination, sendDate}){
     return result;
   }
   if (destination === undefined && origin === undefined && sendDate) {
-    //console.log(sendDate.dataSmall);
+   
     const result = await db.query(
       `SELECT *
     FROM flights
@@ -60,6 +76,12 @@ async function getFlights({origin, destination, sendDate}){
 
     return result;
   }
-  
+
 }
-export const flightsRepository ={findFlight,createFlights,getFlights}
+export const flightsRepository = {
+  findFlight,
+  createFlights,
+  getFlights,
+  getAllFlights,
+  getByQueryFlights
+};

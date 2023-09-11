@@ -11,8 +11,8 @@ export default function dateSchema() {
     //TRANSFORMANDO A DATA DO BODY EM UMA DATA VALIDA
     const formattedDate = `${year}/${month}/${day}`;
     const parsedDate = dayjs(formattedDate);
+ 
     
-    //console.log(dayjs(new Date(date)))
     if (
       day < 1 ||
       day > 31 ||

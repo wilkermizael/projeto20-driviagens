@@ -12,5 +12,15 @@ async function choiceTravels({passengerId, flightId  }) {
 
   await travelsRepository.createTravel({ passengerId,flightId });
 }
-
-export const travelService = { choiceTravels };
+async function getTravels(name){
+  const infoFlight = await travelsRepository.findTravelByName(name)
+  
+  const infoPassengerByName = infoFlight.rows.map( item =>({
+    passenger:`${item.firstName} ${item.lastName}`,
+    travels: item.travels
+  }))
+  return infoPassengerByName
+ 
+  
+}
+export const travelService = { choiceTravels,getTravels };

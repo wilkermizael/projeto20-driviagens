@@ -15,5 +15,15 @@ async function createTravel({ passengerId,flightId }) {
   VALUES ($1,$2) `,[passengerId,flightId]
   );
 }
+async function findTravelByName({name}){
+  
+  const result = await db.query(
+    `select passengers.*, count(travels) as "travels" from passengers join travels on passengers.id = travels."passengerId"
+    where  passengers."firstName" ILIKE $1 OR passengers."lastName" ILIKE $2
+    group by passengers.id
+    limit 10;`,[`%${name}%`, `%${name}%`]
+  );
 
-export const travelsRepository = { findTravel, createTravel };
+    return result
+}
+export const travelsRepository = { findTravel, createTravel,findTravelByName };
