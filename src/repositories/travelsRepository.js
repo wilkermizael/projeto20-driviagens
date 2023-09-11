@@ -17,16 +17,21 @@ async function createTravel({ passengerId,flightId }) {
 }
 async function findTravelByName({name}){
   if(!name){
-    const result = await db.query(`select passengers.*, count(travels) as "travels" from passengers join travels on passengers.id = travels."passengerId"
-    group by passengers.id limit 10;`);
+    const result = await db.query(`SELECT passengers.*, COUNT(travels) AS "travels" 
+    FROM passengers JOIN travels ON passengers.id = travels."passengerId"
+    GROUP BY passengers.id
+    ORDER BY "travels" DESC 
+    LIMIT 10;`);
 
     return result;
   }
   const result = await db.query(
-    `select passengers.*, count(travels) as "travels" from passengers join travels on passengers.id = travels."passengerId"
-    where  passengers."firstName" ILIKE $1 OR passengers."lastName" ILIKE $2
-    group by passengers.id
-    limit 10;`,[`%${name}%`, `%${name}%`]
+    `SELECT passengers.*, COUNT(travels) AS "travels" FROM passengers JOIN travels ON passengers.id = travels."passengerId"
+    WHERE  passengers."firstName" ILIKE $1 OR passengers."lastName" ILIKE $2
+    GROUP BY passengers.id
+    ORDER BY "travels" DESC
+    LIMIT 10;`,
+    [`%${name}%`, `%${name}%`]
   );
 
     return result
