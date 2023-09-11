@@ -62,12 +62,7 @@ async function getFlights({origin, destination, sendDate}){
     const result = await db.query(
       `SELECT *
     FROM flights
-    WHERE TO_DATE(flights.date, 'DD/MM/YYYY') >= $1
-    GROUP BY flights.id
-    UNION ALL
-    SELECT *
-    FROM flights
-    WHERE TO_DATE(flights.date, 'DD/MM/YYYY') <= $2
+    WHERE TO_DATE(flights.date, 'DD/MM/YYYY') >= $1 AND TO_DATE(flights.date, 'DD/MM/YYYY') <= $2
     GROUP BY flights.id
     ORDER BY date;
     `,
