@@ -17,7 +17,8 @@ async function createTravel({ passengerId,flightId }) {
 }
 async function findTravelByName({name}){
   if(!name){
-    const result = await db.query(`select * from travels limit 10;`);
+    const result = await db.query(`select passengers.*, count(travels) as "travels" from passengers join travels on passengers.id = travels."passengerId"
+    group by passengers.id limit 10;`);
 
     return result;
   }
