@@ -27,9 +27,9 @@ async function getByQueryFlights({origin, destination, smallerDate, biggerDate})
   );
   
   const result =
-    await db.query(`SELECT * FROM flights WHERE origin = $1 AND destination = $2
-    AND TO_DATE(flights.date,'DD/MM/YYYY') > $3
-    AND TO_DATE(flights.date,'DD/MM/YYYY') < $4
+    await db.query(`SELECT * FROM flights WHERE origin = $1 OR destination = $2
+    OR TO_DATE(flights.date,'DD/MM/YYYY') > $3
+    OR TO_DATE(flights.date,'DD/MM/YYYY') < $4
     ORDER BY date;`,[cityId.rows[0].id,cityId.rows[1].id,smallerDate,biggerDate]);
   return result;
 }
