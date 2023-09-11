@@ -9,8 +9,9 @@ async function findFlight({ origin, destination}) {
 }
 
 async function createFlights({ origin, destination, date }){
-    const result = await db.query(`INSERT INTO flights (origin, destination,date)
+     const result = await db.query(`INSERT INTO flights (origin, destination,date)
      VALUES($1,$2,$3);`,[origin,destination,date])
+     
 }
 
 async function getAllFlights(){
@@ -25,7 +26,7 @@ async function getByQueryFlights({origin, destination, smallerDate, biggerDate})
     `SELECT cities.id FROM cities WHERE name = $1 OR name = $2 GROUP BY id;`,
     [origin, destination]
   );
-  console.log(smallerDate)
+ 
   const result = await db.query(
     `SELECT * FROM flights WHERE origin = $1 AND destination = $2
     AND TO_DATE(flights.date,'DD/MM/YYYY') >= TO_DATE($3, 'DD/MM/YYYY')

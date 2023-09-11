@@ -13,22 +13,13 @@ async function createFlights({ origin, destination, date }) {
 async function getFlights({ origin, destination, smallerDate, biggerDate }) {
   let allFlights = [];
 
-  /*const smallBigDate = resolveDate({ smallerDate, biggerDate });//validar data input do usuario
-  const dataSmall=smallBigDate.smallerDateConvert;
-  const dataBigger =smallBigDate.biggerDateConvert;
-
-  const sendDate ={
-    dataSmall,
-    dataBigger
-  }*/
-
   if (
     origin === undefined &&
     destination === undefined &&
     smallerDate === undefined &&
     biggerDate === undefined
   ) {
-    //console.log("Estou aqui")
+    
     allFlights = await flightsRepository.getAllFlights();
     return allFlights;
   }

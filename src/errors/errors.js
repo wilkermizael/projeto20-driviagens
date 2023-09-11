@@ -29,4 +29,10 @@ export function badRequest(resource) {
     message: `${resource}`,
   };
 }
-export const errors = {findConflit, notFound, notPassengerOrFlight, invalidDate,badRequest}
+export function limit(resource){
+   return {
+     type: "limit",
+     message: `${resource}`,
+   };
+}
+export const errors = {findConflit, notFound, notPassengerOrFlight, invalidDate,badRequest,limit}

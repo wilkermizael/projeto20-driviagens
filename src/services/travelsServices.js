@@ -14,7 +14,7 @@ async function choiceTravels({passengerId, flightId  }) {
 }
 async function getTravels(name){
   const infoFlight = await travelsRepository.findTravelByName(name)
-  
+  if(infoFlight.rowCount >10) throw errors.limit("Too many results");
   const infoPassengerByName = infoFlight.rows.map( item =>({
     passenger:`${item.firstName} ${item.lastName}`,
     travels: item.travels

@@ -16,12 +16,7 @@ export async function choiceTravels(req,res){
 }
 export async function getTravels(req,res){
     const name = req.query
-    
-    try {
-        const passengerByQtd = await travelService.getTravels(name)
-        res.status(httpStatus.OK).send(passengerByQtd);
-    } catch (error) {
-        console.log(error) 
-        res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
-    }
+    const passengerByQtd = await travelService.getTravels(name);
+     res.status(httpStatus.OK).send(passengerByQtd);
+  
 }
